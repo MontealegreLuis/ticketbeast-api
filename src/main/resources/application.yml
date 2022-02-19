@@ -6,3 +6,13 @@ spring:
     include: ${spring.application.name}-${spring.profiles.active}.properties
   config:
     use-legacy-processing: true
+  web:
+    resources:
+      add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+server:
+  servlet:
+    encoding:
+      force: true

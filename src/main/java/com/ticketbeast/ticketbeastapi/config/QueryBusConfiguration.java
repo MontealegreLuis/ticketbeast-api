@@ -12,18 +12,19 @@ import com.montealegreluis.servicebusesmiddleware.querybus.middleware.handler.Qu
 import com.montealegreluis.servicebusesmiddleware.querybus.middleware.logger.QueryLoggerMiddleware;
 import com.montealegreluis.servicebusesspringboot.querybus.factory.ApplicationContextQueryHandlerFactory;
 import com.ticketbeast.ticketbeastapi.TicketBeastApiApplication;
+import java.time.Clock;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.time.Clock;
-import java.util.List;
+import org.springframework.web.context.annotation.RequestScope;
 
 @Configuration
 public class QueryBusConfiguration {
   @Bean
+  @RequestScope
   public QueryBus queryBus(
       QueryHandlerMiddleware queryHandler,
       QueryLoggerMiddleware logger,
@@ -37,7 +38,7 @@ public class QueryBusConfiguration {
   @Bean
   public QueryHandlerMiddleware queryHandlerMiddleware(ApplicationContext context) {
     var factory = new ApplicationContextQueryHandlerFactory(context);
-    var locator = new ReflectionsQueryHandlerLocator("com.ticketbeast.ticketbeastapi");
+    var locator = new ReflectionsQueryHandlerLocator("com.montealegreluis.ticketbeast");
     return new QueryHandlerMiddleware(locator, factory);
   }
 

@@ -1,0 +1,204 @@
+openapi: 3.0.3
+
+info:
+  title: TicketBeast OpenAPI Spec
+  description: REST API Documentation for TicketBeast
+  version: v1
+  contact:
+    name: Luis Montealegre
+    email: montealegreluis@gmail.com
+
+servers:
+  - url: http://localhost:8080
+    description: Local Development environment
+
+tags:
+  - name: Concerts
+
+paths:
+  /v1/concerts/{concertId}:
+    get:
+      tags:
+        - Concerts
+      summary: View an upcoming concert information
+      description: >
+        View an upcoming concert information
+        
+        
+        This endpoint will only return published concerts
+      operationId: viewPublishedConcert
+      parameters:
+        - name: concertId
+          in: path
+          required: true
+          schema:
+            type: string
+            description: Concert identifier
+            example: 35b0f454-470c-4514-8243-84d4de7ca033
+      responses:
+        '200':
+          description: Upcoming concert information
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ConcertResponse"
+        '404':
+          description: Concert cannot be found
+          content:
+            application/problem+json:
+              schema:
+                "$ref": "#/components/schemas/ApiProblem"
+              examples:
+                Concert not found:
+                  description: Concert not found
+                  value:
+                    title: Not Found
+                    status: 404
+                    type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5
+                    detail: Cannot view published concert. Concert with ID 35b0f454-470c-4514-8243-84d4de7ca033
+                      cannot be found
+                    code: view-published-concert-unknown-concert
+        '422':
+          description: Provided concert information is invalid
+          content:
+            application/problem+json:
+              schema:
+                "$ref": "#/components/schemas/ApiProblem"
+              examples:
+                Invalid Concert Information:
+                  description: Invalid Concert Information
+                  value:
+                    title: Unprocessable Entity
+                    status: 422
+                    type: https://tools.ietf.org/html/rfc4918#section-11.2
+                    detail: Cannot view published concert. Invalid input provided
+                    code: view-published-concert-invalid-input
+                    errors:
+                      viewPublishedConcert.concertId: must not be blank
+        '500':
+          description: Something went wrong while trying to find concerts
+          content:
+            application/problem+json:
+              schema:
+                "$ref": "#/components/schemas/ApiProblem"
+              examples:
+                Invalid UUID:
+                  description: Invalid UUID
+                  value:
+                    title: Internal Server Error
+                    status: 500
+                    type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.5.1
+                    detail: Cannot view published concert. '35b0f454-470c-4514-8243-84d4de7ca03g'
+                      is not a valid UUID
+                    code: view-published-concert-application-error
+                    exception:
+                      message: "'35b0f454-470c-4514-8243-84d4de7ca03g' is not a valid
+                              UUID"
+                      class: com.montealegreluis.assertions.Assert
+                      line: 88
+                      file: Assert.java
+                      trace:
+                        - com.montealegreluis.assertions.Assert.reportIllegalArgument(Assert.java:88)
+                        - com.montealegreluis.assertions.Assert.lambda$uuid$1(Assert.java:63)
+                        - io.vavr.control.Try.onFailure(Try.java:659)
+                        - com.montealegreluis.assertions.Assert.uuid(Assert.java:63)
+                        - com.montealegreluis.assertions.Assert.uuid(Assert.java:59)
+                        - com.montealegreluis.ticketbeast.values.Uuid.<init>(Uuid.java:26)
+                        - com.montealegreluis.ticketbeast.values.Uuid.withValue(Uuid.java:22)
+                        - com.montealegreluis.ticketbeast.concerts.actions.ViewPublishedConcertInput.<init>(ViewPublishedConcertInput.java:10)
+                        - com.ticketbeast.ticketbeastapi.rest.concerts.ViewPublishedConcertController.viewPublishedConcert(ViewPublishedConcertController.java:83)
+                        - com.ticketbeast.ticketbeastapi.rest.concerts.ViewPublishedConcertController$$FastClassBySpringCGLIB$$39cddebf.invoke(<generated>)
+                        - org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+                        - org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:783)
+                        - org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+                        - org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+                        - org.springframework.validation.beanvalidation.MethodValidationInterceptor.invoke(MethodValidationInterceptor.java:123)
+                        - org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+
+components:
+  schemas:
+    AddressResponse:
+      type: object
+      properties:
+        streetAndNumber:
+          type: string
+          description: Address street and number
+          example: Main St. 123
+        city:
+          type: string
+          description: Address city
+          example: Austin
+        state:
+          type: string
+          description: Address state
+          example: TX
+        zipCode:
+          type: string
+          description: Address zip code
+          example: '12345'
+      description: Venue address
+    ConcertResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Concert unique identifier
+          example: 984a3447-f7a5-4e2a-81f7-f1c330662b5b
+        title:
+          type: string
+          description: Concert title
+          example: The red chord
+        subtitle:
+          type: string
+          description: Concert subtitle
+          example: with Animosity and the Lethargy
+        concertDate:
+          type: number
+          description: Concert date
+          example: 1645573411000
+        additionalInformation:
+          type: string
+          description: Additional information
+          example: For tickets call (555) 222-2222.
+        venue:
+          "$ref": "#/components/schemas/VenueResponse"
+    VenueResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Venue name
+          example: The Mosh Pit
+        address:
+          "$ref": "#/components/schemas/AddressResponse"
+      description: Venue information where the concert will be held
+    ApiProblem:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Problem title
+          example: Not Found
+        status:
+          type: integer
+          format: int32
+          description: HTTP Status Code
+          example: 404
+        type:
+          type: string
+          format: uri
+          description: URI to document this type of error
+          example: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5
+        detail:
+          type: string
+          description: Message with more details about this specific error
+          example: Concert cannot be found
+        instance:
+          type: string
+          format: uri
+          description: URI to document this occurrence of the error
+          example: https://example.com/problem
+      additionalProperties:
+        oneOf:
+          - type: object
+          - type: string
