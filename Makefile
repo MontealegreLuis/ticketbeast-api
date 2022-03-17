@@ -12,3 +12,10 @@ format: ## Format code
 lint: ## Lint Open API spec
 	@echo "Linting Open API spec"
 	@npm run lint
+
+.PHONY: check
+check: lint ## Run code quality checks
+	@echo "Running test suite..."
+	@./gradlew check
+	@echo "Running mutation test suite..."
+	@./gradlew pitest --info

@@ -8,7 +8,6 @@ plugins {
 }
 
 group = 'com.ticketbeast'
-version = '0.0.1-SNAPSHOT'
 
 apply from: rootProject.file('hooks.gradle')
 
