@@ -11,4 +11,4 @@ format: ## Format code
 .PHONY: lint
 lint: ## Lint Open API spec
 	@echo "Linting Open API spec"
-	@spectral lint  src/main/resources/api/api.yml
+	@npm run lint

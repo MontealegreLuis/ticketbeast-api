@@ -1,11 +1,13 @@
 {
   "scripts": {
     "prepare": "husky install",
-    "commitlint": "commitlint --edit \"$1\""
+    "commitlint": "commitlint --edit \"$1\"",
+    "lint": "spectral lint src/main/resources/api/api.yml"
   },
   "dependencies": {
-    "@commitlint/cli": "16.2.1",
+    "@commitlint/cli": "16.2.3",
     "@commitlint/config-conventional": "16.2.1",
+    "@stoplight/spectral": "6.1.0",
     "husky": "7.0.4"
   }
 }
