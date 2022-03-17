@@ -24,7 +24,8 @@ final class ViewPublishedConcertControllerTest {
     concerts.add(publishedConcert);
 
     mvc.perform(get("/v1/concerts/" + publishedConcert.id()).accept(MediaType.APPLICATION_JSON))
-        .andExpect(openApi().isValid(validator));
+        .andExpect(openApi().isValid(validator))
+        .andExpect(jsonPath("$.id").value(publishedConcert.id().value()));
   }
 
   @Test
