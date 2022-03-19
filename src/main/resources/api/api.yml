@@ -156,6 +156,8 @@ components:
           type: number
           description: Concert date
           example: 1645573411000
+        ticketPrice:
+          "$ref": "#/components/schemas/MoneyResponse"
         additionalInformation:
           type: string
           description: Additional information
@@ -172,6 +174,17 @@ components:
         address:
           "$ref": "#/components/schemas/AddressResponse"
       description: Venue information where the concert will be held
+    MoneyResponse:
+      type: object
+      description: Ticket price
+      properties:
+        amount:
+          type: number
+          description: Amount in cents
+          example: 18050
+        currency:
+          type: string
+          description: Currency code (ISO 4217)
     ApiProblem:
       type: object
       properties:

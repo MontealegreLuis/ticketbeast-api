@@ -25,6 +25,9 @@ public final class ConcertResponse {
   @Schema(description = "Concert date", type = "number", example = "1645573411000")
   public final Date concertDate;
 
+  @Schema(description = "Ticket price")
+  public final MoneyResponse ticketPrice;
+
   @Schema(
       description = "Additional information",
       type = "string",

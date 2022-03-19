@@ -45,7 +45,7 @@ dependencies {
   implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
   implementation 'org.mapstruct:mapstruct:1.4.2.Final'
   implementation 'com.montealegreluis:service-buses-spring-boot:4.1.0'
-  implementation 'com.montealegreluis:ticketbeast:1.3.0'
+  implementation 'com.montealegreluis:ticketbeast:2.0.0'
 
   compileOnly 'org.projectlombok:lombok:1.18.22'
 
@@ -57,7 +57,7 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'com.atlassian.oai:swagger-request-validator-mockmvc:2.26.2'
   testImplementation 'com.h2database:h2:2.1.210'
-  testImplementation testFixtures('com.montealegreluis:ticketbeast:1.3.0')
+  testImplementation testFixtures('com.montealegreluis:ticketbeast:2.0.0')
 }
 
 jacocoTestReport {

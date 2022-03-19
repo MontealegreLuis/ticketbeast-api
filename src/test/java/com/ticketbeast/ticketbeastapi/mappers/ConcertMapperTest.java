@@ -24,6 +24,8 @@ final class ConcertMapperTest {
     assertEquals(response.venue.address.city, concert.getVenue().getAddress().getCity());
     assertEquals(response.venue.address.state, concert.getVenue().getAddress().getState());
     assertEquals(response.venue.address.zipCode, concert.getVenue().getAddress().getZipCode());
+    assertEquals(response.ticketPrice.amount, concert.getTicketPrice().getAmount());
+    assertEquals(response.ticketPrice.currency, concert.getTicketPrice().getCurrency());
   }
 
   @Test
