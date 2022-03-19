@@ -6,3 +6,4 @@
 
 REST API for TicketBeast from [Test Driven Laravel](https://testdrivenlaravel.com/) 
 
+Browse the [OpenAPI Specification](https://montealegreluis.com/ticketbeast-api/) for more details.
