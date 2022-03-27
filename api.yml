@@ -185,6 +185,7 @@ components:
         currency:
           type: string
           description: Currency code (ISO 4217)
+          example: USD
     ApiProblem:
       type: object
       properties:
