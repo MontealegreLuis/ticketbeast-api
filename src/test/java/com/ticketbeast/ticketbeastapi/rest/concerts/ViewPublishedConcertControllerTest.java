@@ -23,7 +23,7 @@ final class ViewPublishedConcertControllerTest {
   @Test
   void it_finds_an_upcoming_published_concert() throws Exception {
     var publishedConcert = aConcert().published().build();
-    concerts.add(publishedConcert);
+    concerts.save(publishedConcert);
 
     mvc.perform(get("/v1/concerts/" + publishedConcert.id()).accept(MediaType.APPLICATION_JSON))
         .andExpect(openApi().isValid(validator))
