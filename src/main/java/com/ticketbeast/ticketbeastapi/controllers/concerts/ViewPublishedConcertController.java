@@ -1,4 +1,4 @@
-package com.ticketbeast.ticketbeastapi.rest.concerts;
+package com.ticketbeast.ticketbeastapi.controllers.concerts;
 
 import com.montealegreluis.apiproblem.ApiProblem;
 import com.montealegreluis.servicebuses.ActionException;
@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -86,7 +85,6 @@ public class ViewPublishedConcertController {
   @GetMapping("/v1/concerts/{concertId}")
   public ResponseEntity<Object> viewPublishedConcert(
       @PathVariable
-          @Valid
           @NotBlank
           @Schema(
               description = "Concert identifier",
