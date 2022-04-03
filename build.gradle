@@ -28,6 +28,13 @@ repositories {
     }
   }
   maven {
+    url = uri("https://maven.pkg.github.com/montealegreluis/assert")
+    credentials {
+      username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+      password = project.findProperty("gpr.token") ?: System.getenv("TOKEN")
+    }
+  }
+  maven {
     url = uri("https://maven.pkg.github.com/montealegreluis/ticketbeast")
     credentials {
       username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
@@ -42,9 +49,11 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-validation'
   implementation 'org.springframework.boot:spring-boot-starter-security'
   implementation "com.montealegreluis:service-buses-problem-spring-boot:${serviceBusesProblemSpringBootVersion}"
+  implementation "com.montealegreluis:service-buses-spring-boot:${serviceBusesSpringBootVersion}"
   implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
   implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-  implementation "com.montealegreluis:service-buses-spring-boot:${serviceBusesSpringBootVersion}"
+  implementation "com.montealegreluis:assert:${assertVersion}"
+  implementation "io.vavr:vavr:0.10.4"
   implementation "com.montealegreluis:ticketbeast:${ticketBeastVersion}"
 
   compileOnly 'org.projectlombok:lombok:1.18.22'

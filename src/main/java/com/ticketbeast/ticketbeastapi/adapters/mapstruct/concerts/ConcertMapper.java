@@ -1,4 +1,4 @@
-package com.ticketbeast.ticketbeastapi.mappers.concerts;
+package com.ticketbeast.ticketbeastapi.adapters.mapstruct.concerts;
 
 import com.montealegreluis.ticketbeast.concerts.Concert;
 import org.mapstruct.Mapper;

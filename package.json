@@ -3,7 +3,7 @@
     "semantic-release": "semantic-release",
     "prepare": "husky install",
     "commitlint": "commitlint --edit \"$1\"",
-    "lint": "spectral lint src/main/resources/api/api.yml"
+    "lint": "spectral lint src/main/resources/docs/api.yml"
   },
   "dependencies": {
     "@commitlint/cli": "16.2.3",

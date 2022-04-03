@@ -43,12 +43,12 @@ final class ViewPublishedConcertControllerTest {
   void it_fails_to_find_a_concert_with_invalid_id() throws Exception {
     mvc.perform(get("/v1/concerts/invalid").accept(MediaType.APPLICATION_JSON))
         .andExpect(openApi().isValid(validator))
-        .andExpect(jsonPath("$.code").value("view-published-concert-application-error"));
+        .andExpect(jsonPath("$.code").value("view-published-concert-invalid-input"));
   }
 
   @BeforeEach
   void let() {
-    validator = OpenApiInteractionValidator.createForSpecificationUrl("/api/api.yml").build();
+    validator = OpenApiInteractionValidator.createForSpecificationUrl("/docs/api.yml").build();
   }
 
   private OpenApiInteractionValidator validator;

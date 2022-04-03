@@ -1,6 +1,6 @@
-package com.ticketbeast.ticketbeastapi.mappers.concerts;
+package com.ticketbeast.ticketbeastapi.adapters.mapstruct.concerts;
 
-import com.montealegreluis.ticketbeast.values.StringValueObject;
+import com.montealegreluis.ticketbeast.shared.StringValueObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Date;
 import lombok.AllArgsConstructor;

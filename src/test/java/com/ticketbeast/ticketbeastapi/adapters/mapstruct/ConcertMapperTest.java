@@ -1,9 +1,9 @@
-package com.ticketbeast.ticketbeastapi.mappers;
+package com.ticketbeast.ticketbeastapi.adapters.mapstruct;
 
 import static com.montealegreluis.tickebeast.builders.concerts.ConcertBuilder.aConcert;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.ticketbeast.ticketbeastapi.mappers.concerts.ConcertMapper;
+import com.ticketbeast.ticketbeastapi.adapters.mapstruct.concerts.ConcertMapper;
 import org.junit.jupiter.api.Test;
 
 final class ConcertMapperTest {

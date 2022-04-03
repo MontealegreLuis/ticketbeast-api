@@ -14,6 +14,7 @@ servers:
 
 tags:
   - name: Concerts
+  - name: Orders
 
 paths:
   /v1/concerts/{concertId}:
@@ -43,7 +44,15 @@ paths:
               schema:
                 "$ref": "#/components/schemas/ConcertResponse"
         '404':
-          description: Concert cannot be found
+          description: >
+            Concert cannot be found.
+
+
+            - Concert might not exist
+
+            - It could be a past concert
+
+            - It could be an unpublished concert
           content:
             application/problem+json:
               schema:
@@ -114,6 +123,111 @@ paths:
                         - org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
                         - org.springframework.validation.beanvalidation.MethodValidationInterceptor.invoke(MethodValidationInterceptor.java:123)
                         - org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+  /v1/orders:
+    post:
+      tags:
+        - Orders
+      summary: Buy tickets for a concert
+      description: Places an order for a given amount of tickets for an upcoming concert, and executes the tickets payment
+      operationId: purchaseTickets
+      requestBody:
+        $ref: '#/components/requestBodies/PurchaseTicketsRequest'
+      responses:
+        '201':
+          description: Order was placed and payment was completed successfully
+        '404':
+          description: >
+            Concert cannot be found.
+
+
+            - Concert might not exist
+
+            - It could be a past concert
+
+            - It could be an unpublished concert
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                Concert Not Found:
+                  description: Concert not found
+                  value:
+                    title: Not Found
+                    status: 404
+                    type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5
+                    detail: Cannot purchase tickets. Concert with ID 740d893b-6a94-4749-980b-2b18a3499498 cannot be found
+                    code: purchase-tickets-unknown-concert
+        '409':
+          description: >
+            Cannot complete tickets purchase.
+            
+            
+            - There are not enough tickets available
+            
+            - Payment cannot be completed
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                Not Enough Tickets Available:
+                  description: Cannot complete purchase because there are not enough tickets available
+                  value:
+                    title: Conflict
+                    status: 409
+                    type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10
+                    detail: Cannot purchase tickets. Cannot place order for von.mraz@gmail.com, trying to purchase 4 tickets, but only 3 are available
+                    code: purchase-tickets-not-enough-tickets
+                Payment Failed:
+                  description: Cannot complete purchase because payment cannot be completed
+                  value:
+                    title: Conflict
+                    status: 409
+                    type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10
+                    detail: Cannot purchase tickets. Payment with token 'a98bf663-d172-495a-b07e-ea5301057444' cannot be completed
+                    code: purchase-tickets-payment-failed
+        '422':
+          description: Invalid input provided
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                Invalid Tickets Quantity:
+                  description: Cannot complete purchase because tickets quantity is invalid
+                  value:
+                    title: Unprocessable Entity
+                    status: 422
+                    type: https://tools.ietf.org/html/rfc4918#section-11.2
+                    detail: Cannot purchase tickets. Invalid input provided
+                    code: purchase-tickets-invalid-input
+                    errors:
+                      ticketsQuantity: must be greater than or equal to 1
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                Internal Server Error:
+                  description: Cannot deserialize tickets quantity
+                  value:
+                    title: Internal Server Error
+                    status: 500
+                    type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.5.1
+                    detail: "Cannot purchase tickets. JSON parse error: Cannot deserialize value"
+                    code: purchase-tickets-application-error
+                    exception:
+                      message: "JSON parse error: Cannot deserialize value of type `int` from String \"blur\": not a valid `int` value"
+                      class: org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter
+                      line: 389
+                      file: AbstractJackson2HttpMessageConverter.java
+                      trace:
+                        - org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:389)
+                        - org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.read(AbstractJackson2HttpMessageConverter.java:342)
+
 
 components:
   schemas:
@@ -186,6 +300,7 @@ components:
           type: string
           description: Currency code (ISO 4217)
           example: USD
+
     ApiProblem:
       type: object
       properties:
@@ -216,3 +331,39 @@ components:
         oneOf:
           - type: object
           - type: string
+
+    PurchaseTicketsRequest:
+      type: object
+      required:
+        - concertId
+        - ticketsQuantity
+        - email
+        - paymentToken
+      properties:
+        concertId:
+          description: Unique identifier of the concert
+          type: string
+          format: uuid
+          example: 6eff8716-8a40-45c8-bc6a-d6315ad5ee11
+        ticketsQuantity:
+          description: Amount of tickets to buy
+          type: number
+          example: 2
+        email:
+          description: Email address of the buyer
+          type: string
+          format: email
+          example: john@example.com
+        paymentToken:
+          description: Secure authorization token to pay for the tickets
+          type: string
+          example: 3eaec31c-ac6b-4d20-9be4-d53ff685dd7f
+
+  requestBodies:
+    PurchaseTicketsRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PurchaseTicketsRequest'
+      description: Payload to purchase tickets for an upcoming concert
+      required: true

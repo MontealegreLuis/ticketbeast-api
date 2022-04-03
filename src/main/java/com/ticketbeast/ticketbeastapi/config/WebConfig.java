@@ -3,7 +3,8 @@ package com.ticketbeast.ticketbeastapi.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.montealegreluis.apiproblemspringboot.jackson.ApiProblemModule;
-import com.ticketbeast.ticketbeastapi.mappers.StringValueObjectSerializer;
+import com.ticketbeast.ticketbeastapi.adapters.jackson.IntegerValueObjectSerializer;
+import com.ticketbeast.ticketbeastapi.adapters.jackson.StringValueObjectSerializer;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +30,10 @@ public class WebConfig implements WebMvcConfigurer {
 
   @Bean
   public ObjectMapper objectMapper() {
-    SimpleModule module = new SimpleModule().addSerializer(new StringValueObjectSerializer());
+    final SimpleModule module =
+        new SimpleModule()
+            .addSerializer(new StringValueObjectSerializer())
+            .addSerializer(new IntegerValueObjectSerializer());
 
     return new ObjectMapper().registerModules(module, new ApiProblemModule());
   }

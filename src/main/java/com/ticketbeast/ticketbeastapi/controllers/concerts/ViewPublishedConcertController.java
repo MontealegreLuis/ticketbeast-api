@@ -5,15 +5,15 @@ import com.montealegreluis.servicebuses.ActionException;
 import com.montealegreluis.servicebuses.querybus.QueryBus;
 import com.montealegreluis.ticketbeast.concerts.Concert;
 import com.montealegreluis.ticketbeast.concerts.actions.ViewPublishedConcertInput;
-import com.ticketbeast.ticketbeastapi.mappers.concerts.ConcertMapper;
-import com.ticketbeast.ticketbeastapi.mappers.concerts.ConcertResponse;
+import com.ticketbeast.ticketbeastapi.adapters.mapstruct.concerts.ConcertMapper;
+import com.ticketbeast.ticketbeastapi.adapters.mapstruct.concerts.ConcertResponse;
+import com.ticketbeast.ticketbeastapi.adapters.validation.Uuid;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import javax.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -85,7 +85,7 @@ public class ViewPublishedConcertController {
   @GetMapping("/v1/concerts/{concertId}")
   public ResponseEntity<Object> viewPublishedConcert(
       @PathVariable
-          @NotBlank
+          @Uuid
           @Schema(
               description = "Concert identifier",
               example = "35b0f454-470c-4514-8243-84d4de7ca033")
