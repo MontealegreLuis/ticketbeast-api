@@ -1,5 +1,7 @@
 task configureGitHooks(type: Exec) {
-  commandLine "npm", "install", "--only=prod"
+  inputs.file file('package-lock.json')
+  outputs.dir new File(rootDir, 'node_modules')
+  commandLine "npm", "ci", "--production", "--prefer-offline"
 }
 
 prepareKotlinBuildScriptModel.dependsOn configureGitHooks
