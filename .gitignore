@@ -1,6 +1,7 @@
 HELP.md
 .gradle
 build/
+src/main/resources/stripe.properties
 node_modules
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/

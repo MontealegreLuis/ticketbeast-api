@@ -1,15 +1,15 @@
 package com.ticketbeast.ticketbeastapi.builders.orders;
 
 import com.montealegreluis.tickebeast.builders.Random;
+import com.montealegreluis.tickebeast.fakes.payments.FakePaymentGateway;
 import com.montealegreluis.ticketbeast.shared.Uuid;
-import com.ticketbeast.ticketbeastapi.config.TicketBeastConfiguration;
 import com.ticketbeast.ticketbeastapi.controllers.orders.PurchaseTicketsRequest;
 
 public final class PurchaseTicketsRequestBuilder {
   private String concertId = Random.uuid();
   private Integer ticketsQuantity = Random.ticketsQuantity();
   private String email = Random.email();
-  private String paymentToken = TicketBeastConfiguration.TempPaymentGateway.VALID_TOKEN;
+  private String paymentToken = FakePaymentGateway.VALID_TOKEN.value();
 
   public static PurchaseTicketsRequestBuilder aPurchaseTicketsRequest() {
     return new PurchaseTicketsRequestBuilder();

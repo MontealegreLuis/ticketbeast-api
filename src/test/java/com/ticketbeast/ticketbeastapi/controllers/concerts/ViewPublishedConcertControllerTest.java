@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import com.atlassian.oai.validator.OpenApiInteractionValidator;
-import com.montealegreluis.ticketbeast.adapters.jpa.repostories.concerts.ConcertsRepository;
+import com.montealegreluis.ticketbeast.adapters.jpa.repositories.concerts.ConcertsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
