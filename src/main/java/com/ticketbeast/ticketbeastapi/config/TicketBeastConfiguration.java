@@ -2,7 +2,9 @@ package com.ticketbeast.ticketbeastapi.config;
 
 import com.montealegreluis.servicebuses.Command;
 import com.montealegreluis.servicebuses.Query;
+import com.montealegreluis.ticketbeast.adapters.hashids.HashIdsCodesGenerator;
 import com.montealegreluis.ticketbeast.adapters.stripe.StripePaymentGateway;
+import com.montealegreluis.ticketbeast.concerts.CodesGenerator;
 import com.montealegreluis.ticketbeast.payments.PaymentGateway;
 import com.stripe.net.RequestOptions;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -19,15 +21,21 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
     },
     value = {"com.montealegreluis.ticketbeast"})
 public class TicketBeastConfiguration {
-  private final StripeConfiguration stripe;
+  private final AdaptersConfiguration adaptersConfiguration;
 
-  public TicketBeastConfiguration(StripeConfiguration stripe) {
-    this.stripe = stripe;
+  public TicketBeastConfiguration(final AdaptersConfiguration adaptersConfiguration) {
+    this.adaptersConfiguration = adaptersConfiguration;
   }
 
   @Bean
   @Profile("!test")
   public PaymentGateway paymentGateway() {
-    return new StripePaymentGateway(RequestOptions.builder().setApiKey(stripe.getApiKey()).build());
+    return new StripePaymentGateway(
+        RequestOptions.builder().setApiKey(adaptersConfiguration.getStripeApiKey()).build());
+  }
+
+  @Bean
+  public CodesGenerator codesGenerator() {
+    return new HashIdsCodesGenerator(adaptersConfiguration.getHashIdsSalt());
   }
 }

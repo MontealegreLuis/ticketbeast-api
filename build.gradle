@@ -51,21 +51,21 @@ dependencies {
   implementation "com.montealegreluis:service-buses-problem-spring-boot:${serviceBusesProblemSpringBootVersion}"
   implementation "com.montealegreluis:service-buses-spring-boot:${serviceBusesSpringBootVersion}"
   implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
-  implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+  implementation "org.mapstruct:mapstruct:${mapstructVersion}"
   implementation "com.montealegreluis:assert:${assertVersion}"
   implementation "io.vavr:vavr:0.10.4"
   implementation "com.montealegreluis:ticketbeast:${ticketBeastVersion}"
 
-  compileOnly 'org.projectlombok:lombok:1.18.22'
+  compileOnly "org.projectlombok:lombok:${lombokVersion}"
 
-  annotationProcessor 'org.projectlombok:lombok:1.18.22'
-  annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+  annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+  annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
   runtimeOnly 'mysql:mysql-connector-java'
 
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
-  testImplementation 'com.atlassian.oai:swagger-request-validator-mockmvc:2.27.0'
-  testImplementation 'com.h2database:h2:2.1.210'
+  testImplementation 'com.atlassian.oai:swagger-request-validator-mockmvc:2.30.0'
+  testImplementation 'com.h2database:h2:2.1.214'
   testImplementation testFixtures("com.montealegreluis:ticketbeast:${ticketBeastVersion}")
 }
 

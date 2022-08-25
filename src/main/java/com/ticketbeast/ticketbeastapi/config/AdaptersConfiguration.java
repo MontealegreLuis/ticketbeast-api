@@ -11,8 +11,11 @@ import org.springframework.context.annotation.PropertySource;
 @Getter
 @Configuration
 @NoArgsConstructor
-@PropertySource({"classpath:stripe.properties"})
-public class StripeConfiguration {
+@PropertySource({"classpath:adapters.properties"})
+public class AdaptersConfiguration {
   @Value("${stripe.apiKey}")
-  private String apiKey;
+  private String stripeApiKey;
+
+  @Value("${hashids.salt}")
+  private String hashIdsSalt;
 }

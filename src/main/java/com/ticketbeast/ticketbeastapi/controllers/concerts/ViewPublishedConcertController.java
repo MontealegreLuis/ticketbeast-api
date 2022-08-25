@@ -4,7 +4,7 @@ import com.montealegreluis.apiproblem.ApiProblem;
 import com.montealegreluis.servicebuses.ActionException;
 import com.montealegreluis.servicebuses.querybus.QueryBus;
 import com.montealegreluis.ticketbeast.concerts.Concert;
-import com.montealegreluis.ticketbeast.concerts.actions.ViewPublishedConcertInput;
+import com.montealegreluis.ticketbeast.concerts.viewpublishedconcert.ViewPublishedConcertInput;
 import com.ticketbeast.ticketbeastapi.adapters.mapstruct.concerts.ConcertMapper;
 import com.ticketbeast.ticketbeastapi.adapters.mapstruct.concerts.ConcertResponse;
 import com.ticketbeast.ticketbeastapi.adapters.validation.Uuid;

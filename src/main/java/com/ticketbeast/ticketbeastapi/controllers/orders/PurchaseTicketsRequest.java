@@ -1,6 +1,6 @@
 package com.ticketbeast.ticketbeastapi.controllers.orders;
 
-import com.montealegreluis.ticketbeast.orders.actions.PurchaseTicketsInput;
+import com.montealegreluis.ticketbeast.orders.purchasetickets.PurchaseTicketsInput;
 import com.ticketbeast.ticketbeastapi.adapters.validation.Email;
 import com.ticketbeast.ticketbeastapi.adapters.validation.Uuid;
 import io.swagger.v3.oas.annotations.media.Schema;
