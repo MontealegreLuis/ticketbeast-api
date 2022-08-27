@@ -1,4 +1,4 @@
-package com.ticketbeast.ticketbeastapi.controllers.concerts;
+package com.ticketbeast.ticketbeastapi.controllers.viewpublishedconcert;
 
 import static com.atlassian.oai.validator.mockmvc.OpenApiValidationMatchers.openApi;
 import static com.montealegreluis.tickebeast.builders.concerts.ConcertBuilder.aConcert;

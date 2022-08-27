@@ -1,4 +1,4 @@
-package com.ticketbeast.ticketbeastapi.controllers.orders;
+package com.ticketbeast.ticketbeastapi.controllers.purchasetickets;
 
 import static com.ticketbeast.ticketbeastapi.builders.orders.PurchaseTicketsRequestBuilder.aPurchaseTicketsRequest;
 import static org.junit.jupiter.api.Assertions.*;

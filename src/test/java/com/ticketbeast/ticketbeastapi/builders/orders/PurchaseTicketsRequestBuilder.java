@@ -2,7 +2,7 @@ package com.ticketbeast.ticketbeastapi.builders.orders;
 
 import com.montealegreluis.tickebeast.builders.Random;
 import com.montealegreluis.ticketbeast.shared.Uuid;
-import com.ticketbeast.ticketbeastapi.controllers.orders.PurchaseTicketsRequest;
+import com.ticketbeast.ticketbeastapi.controllers.purchasetickets.PurchaseTicketsRequest;
 
 public final class PurchaseTicketsRequestBuilder {
   private String concertId = Random.uuid();

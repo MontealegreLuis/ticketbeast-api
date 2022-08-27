@@ -1,4 +1,4 @@
-package com.ticketbeast.ticketbeastapi.controllers.orders;
+package com.ticketbeast.ticketbeastapi.controllers.purchasetickets;
 
 import com.montealegreluis.apiproblem.ApiProblem;
 import com.montealegreluis.servicebuses.ActionException;
@@ -92,7 +92,7 @@ public final class PurchaseTicketsController {
   @PostMapping("/v1/orders")
   public ResponseEntity<Object> purchaseTickets(@RequestBody @Valid PurchaseTicketsRequest request)
       throws ActionException {
-    commandBus.dispatch(request.input());
+    commandBus.dispatch(request.command());
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
 }

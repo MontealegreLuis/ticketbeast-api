@@ -1,4 +1,4 @@
-package com.ticketbeast.ticketbeastapi.controllers.orders;
+package com.ticketbeast.ticketbeastapi.controllers.purchasetickets;
 
 import com.montealegreluis.ticketbeast.orders.purchasetickets.PurchaseTicketsInput;
 import com.ticketbeast.ticketbeastapi.adapters.validation.Email;
@@ -38,7 +38,7 @@ public final class PurchaseTicketsRequest {
       example = "3eaec31c-ac6b-4d20-9be4-d53ff685dd7f")
   private String paymentToken;
 
-  public PurchaseTicketsInput input() {
+  public PurchaseTicketsInput command() {
     return new PurchaseTicketsInput(concertId, ticketsQuantity, email, paymentToken);
   }
 }

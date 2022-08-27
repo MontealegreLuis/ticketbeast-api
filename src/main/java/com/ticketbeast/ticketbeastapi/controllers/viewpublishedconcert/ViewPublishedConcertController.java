@@ -1,4 +1,4 @@
-package com.ticketbeast.ticketbeastapi.controllers.concerts;
+package com.ticketbeast.ticketbeastapi.controllers.viewpublishedconcert;
 
 import com.montealegreluis.apiproblem.ApiProblem;
 import com.montealegreluis.servicebuses.ActionException;
