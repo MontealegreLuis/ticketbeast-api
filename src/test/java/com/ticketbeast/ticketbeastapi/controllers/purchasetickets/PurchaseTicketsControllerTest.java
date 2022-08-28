@@ -6,10 +6,11 @@ import static com.ticketbeast.ticketbeastapi.builders.orders.PurchaseTicketsRequ
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.atlassian.oai.validator.OpenApiInteractionValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.montealegreluis.tickebeast.fakes.payments.InMemoryCharges;
 import com.montealegreluis.ticketbeast.adapters.jpa.repositories.concerts.ConcertsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,14 +28,23 @@ final class PurchaseTicketsControllerTest {
   void it_purchases_tickets_successfully() throws Exception {
     var concert = aConcert().published().withTicketsCount(5).build();
     concerts.save(concert);
-    var request = aPurchaseTicketsRequest().withConcertId(concert.id()).withQuantity(4).build();
+    var creditCardNumber = charges.creditCardNumber();
+    var token = charges.paymentToken(creditCardNumber);
+    var request =
+        aPurchaseTicketsRequest()
+            .withConcertId(concert.id())
+            .withQuantity(4)
+            .withPaymentToken(token.value())
+            .build();
 
     mvc.perform(
             post("/v1/orders/")
                 .content(mapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON, APPLICATION_PROBLEM_JSON))
-        .andExpect(openApi().isValid(validator));
+        .andExpect(openApi().isValid(validator))
+        .andExpect(status().isCreated())
+        .andExpect(content().string(""));
   }
 
   @Test
@@ -109,5 +119,6 @@ final class PurchaseTicketsControllerTest {
   private OpenApiInteractionValidator validator;
   @Autowired private MockMvc mvc;
   @Autowired private ConcertsRepository concerts;
+  @Autowired private InMemoryCharges charges;
   private static final ObjectMapper mapper = new ObjectMapper();
 }

@@ -24,6 +24,7 @@ jobs:
           node-version: 'lts/*'
       - run: npm ci
       - run: echo "stripe.apiKey=api_key" > src/main/resources/adapters.properties
+      - run: echo "hashids.salt=a_salt" >> src/main/resources/adapters.properties
       - run: make check
         env:
           USERNAME: ${{ secrets.GITHUB_ACTOR }}

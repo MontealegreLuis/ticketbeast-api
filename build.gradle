@@ -75,6 +75,16 @@ jacocoTestReport {
     xml.enabled false
     csv.enabled false
   }
+  afterEvaluate {
+    classDirectories.setFrom(files(classDirectories.files.collect {
+      fileTree(dir: it, exclude: [
+        'com/ticketbeast/ticketbeastapi/**/*Impl.*',
+        'com/ticketbeast/ticketbeastapi/config/*',
+        'com/ticketbeast/ticketbeastapi/errorhandling/*',
+        'com/ticketbeast/ticketbeastapi/TicketBeastApiApplication.class'
+      ])
+    }))
+  }
 }
 
 test {
@@ -89,5 +99,10 @@ pitest {
   junit5PluginVersion = '0.15'
   coverageThreshold = 92
   mutationThreshold = 98
-  excludedClasses = ['com.ticketbeast.ticketbeastapi.config.*', 'com.ticketbeast.ticketbeastapi.errorhandling.*']
+  excludedClasses = [
+    'com.ticketbeast.ticketbeastapi.adapters.mapstruct.*',
+    'com.ticketbeast.ticketbeastapi.config.*',
+    'com.ticketbeast.ticketbeastapi.errorhandling.*',
+    'com.ticketbeast.ticketbeastapi.TicketBeastApiApplication.class'
+  ]
 }

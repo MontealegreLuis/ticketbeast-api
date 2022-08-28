@@ -9,7 +9,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PaymentGatewayConfiguration {
   @Bean
-  public PaymentGateway paymentGateway() {
-    return new FakePaymentGateway(new InMemoryCharges());
+  public InMemoryCharges charges() {
+    return new InMemoryCharges();
+  }
+
+  @Bean
+  public PaymentGateway paymentGateway(InMemoryCharges charges) {
+    return new FakePaymentGateway(charges);
   }
 }

@@ -24,6 +24,11 @@ public final class PurchaseTicketsRequestBuilder {
     return this;
   }
 
+  public PurchaseTicketsRequestBuilder withPaymentToken(String paymentToken) {
+    this.paymentToken = paymentToken;
+    return this;
+  }
+
   public PurchaseTicketsRequestBuilder withInvalidPaymentToken() {
     this.paymentToken = "a98bf663-d172-495a-b07e-ea5301057444";
     return this;

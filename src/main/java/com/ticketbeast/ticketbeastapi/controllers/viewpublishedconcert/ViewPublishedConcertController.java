@@ -44,20 +44,20 @@ public class ViewPublishedConcertController {
                 schema = @Schema(implementation = ConcertResponse.class))),
     @ApiResponse(
         responseCode = "422",
-        description = "Provided concert information is invalid",
+        description = "Provided concert ID is invalid",
         content =
             @Content(
                 mediaType = "application/problem+json",
                 schema = @Schema(implementation = ApiProblem.class),
                 examples = {
                   @ExampleObject(
-                      name = "Invalid Concert Information",
+                      name = "Invalid Concert ID",
                       value =
                           "{\"title\": \"Unprocessable Entity\", \"status\": 422, \"type\": \"https://tools.ietf.org/html/rfc4918#section-11.2\", \"detail\": \"Cannot view published concert. Invalid input provided\", \"code\": \"view-published-concert-invalid-input\", \"errors\": {   \"viewPublishedConcert.concertId\": \"must not be blank\"}}")
                 })),
     @ApiResponse(
         responseCode = "404",
-        description = "Concert cannot be found",
+        description = "Concert cannot be found or it's unpublished, or it's in the past",
         content =
             @Content(
                 mediaType = "application/problem+json",
@@ -70,7 +70,7 @@ public class ViewPublishedConcertController {
                 })),
     @ApiResponse(
         responseCode = "500",
-        description = "Something went wrong while trying to find concerts",
+        description = "Something went wrong while trying to find a concert",
         content =
             @Content(
                 mediaType = "application/problem+json",
