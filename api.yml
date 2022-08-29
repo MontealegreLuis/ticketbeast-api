@@ -68,14 +68,14 @@ paths:
                       cannot be found
                     code: view-published-concert-unknown-concert
         '422':
-          description: Provided concert information is invalid
+          description: Provided concert ID is invalid
           content:
             application/problem+json:
               schema:
                 "$ref": "#/components/schemas/ApiProblem"
               examples:
                 Invalid Concert Information:
-                  description: Invalid Concert Information
+                  description: Invalid Concert ID
                   value:
                     title: Unprocessable Entity
                     status: 422
@@ -227,7 +227,88 @@ paths:
                       trace:
                         - org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:389)
                         - org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.read(AbstractJackson2HttpMessageConverter.java:342)
+  /v1/orders/{orderId}:
+    get:
+      tags:
+        - Orders
+      summary: View an existing order information
+      description: >
+        View an existing order information
 
+
+        This endpoint will show an order information, including its payments details, and its tickets information
+      operationId: viewOrder
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+            description: Order identifier
+            example: 35b0f454-470c-4514-8243-84d4de7ca033
+      responses:
+        '200':
+          description: Existing order information
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/OrderResponse"
+        '404':
+          description: >
+            Order cannot be found.
+          content:
+            application/problem+json:
+              schema:
+                "$ref": "#/components/schemas/ApiProblem"
+              examples:
+                Order not found:
+                  description: Order not found
+                  value:
+                    title: Not Found
+                    status: 404
+                    type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5
+                    detail: Cannot view order. Cannot find order with ID 86c34ee9-8eb7-402a-9940-95e762fb3e92
+                    code: view-order-unknown-order
+        '422':
+          description: Provided order ID is invalid
+          content:
+            application/problem+json:
+              schema:
+                "$ref": "#/components/schemas/ApiProblem"
+              examples:
+                Invalid Concert Information:
+                  description: Invalid confirmation number
+                  value:
+                    title: Unprocessable Entity
+                    status: 422
+                    type: https://tools.ietf.org/html/rfc4918#section-11.2
+                    detail: Cannot view order. Invalid input provided
+                    code: view-order-invalid-input
+                    errors:
+                      viewOrder.confirmationNumber: must be a valid confirmation number
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                Internal Server Error:
+                  description: Cannot establish a database connection
+                  value:
+                    title: Internal Server Error
+                    status: 500
+                    type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.5.1
+                    detail: "Cannot view order. Could not open JPA EntityManager for transaction"
+                    code: view-order-application-error
+                    exception:
+                      message: "Could not open JPA EntityManager for transaction; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection"
+                      class: com.montealegreluis.servicebusesmiddleware.querybus.middleware.error.QueryErrorHandlerMiddleware
+                      line: 46
+                      file: QueryErrorHandlerMiddleware.java
+                      trace:
+                        - com.montealegreluis.servicebusesmiddleware.querybus.middleware.error.QueryErrorHandlerMiddleware.rethrowException(QueryErrorHandlerMiddleware.java:46)
+                        - com.montealegreluis.servicebusesmiddleware.querybus.middleware.error.QueryErrorHandlerMiddleware.lambda$execute$1(QueryErrorHandlerMiddleware.java:30)
 
 components:
   schemas:
@@ -300,6 +381,36 @@ components:
           type: string
           description: Currency code (ISO 4217)
           example: USD
+    OrderResponse:
+      type: object
+      properties:
+        confirmationNumber:
+          type: string
+          description: Order confirmation number
+          example: 984A3447F7A54E2A8F7FC33P
+        email:
+          type: string
+          description: Customer's email address
+          example: example@example.com
+        cardLast4Digits:
+          type: string
+          description: Card's last 4 digits
+          example: '2728'
+        total:
+          "$ref": "#/components/schemas/MoneyResponse"
+        tickets:
+          type: array
+          items:
+            "$ref": "#/components/schemas/TicketResponse"
+    TicketResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Ticket's code
+          example: DEAFLB
+        concert:
+          "$ref": "#/components/schemas/ConcertResponse"
 
     ApiProblem:
       type: object
